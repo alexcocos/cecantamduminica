@@ -1,9 +1,1479 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+:root {
+    --background: #eef3f9;
+    --surface: #ffffff;
+    --navy: #0b2447;
+    --navy-light: #193f73;
+    --navy-hover: #071b35;
+    --blue: #2878c8;
+    --light-blue: #dcecff;
+    --accent: #63b3ed;
+    --text: #101828;
+    --muted: #64748b;
+    --border: #cbd9e8;
+    --success-background: #e8f7ee;
+    --success-text: #17643a;
+    --shadow: 0 14px 40px rgba(11, 36, 71, 0.13);
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background:
+        radial-gradient(circle at 85% 5%, #c9e3ff 0, transparent 28%),
+        radial-gradient(circle at 5% 40%, #dbeafe 0, transparent 25%),
+        linear-gradient(180deg, #f8fafc 0%, #e9f1f9 100%);
+    color: var(--text);
+    font-family: "DM Sans", sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+.container {
+    width: min(1100px, calc(100% - 40px));
+    margin: 0 auto;
+}
+
+/* Navigație */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(11, 36, 71, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 5px 20px rgba(11, 36, 71, 0.14);
+    backdrop-filter: blur(12px);
+}
+
+.navigation {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.brand {
+    color: white;
+    font-family: "DM-Sans", sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.navigation nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.navigation nav a,
+.nav-button {
+    color: #d8e6f5;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.navigation nav a:hover,
+.nav-button:hover {
+    color: white;
+}
+
+.logout-form {
+    display: inline;
+}
+
+.nav-button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+/* Conținutul principal */
+
+.main-content {
+    flex: 1;
+    padding-top: 58px;
+    padding-bottom: 80px;
+}
+
+/* Secțiunea introductivă */
+
+.page-heading {
+    position: relative;
+    max-width: none;
+    margin-bottom: 60px;
+    padding: 48px;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            135deg,
+            var(--navy) 0%,
+            var(--navy-light) 65%,
+            #2867a5 100%
+        );
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+}
+
+.page-heading::before {
+    content: "";
+    position: absolute;
+    top: -90px;
+    right: 130px;
+    width: 180px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 50%;
+}
+
+.page-heading::after {
+    content: "";
+    position: absolute;
+    right: -70px;
+    bottom: -110px;
+    width: 270px;
+    height: 270px;
+    background: rgba(99, 179, 237, 0.22);
+    border-radius: 50%;
+}
+
+.eyebrow {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 10px;
+    color: #8dcbff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.page-heading h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: white;
+    font-family: "DM-Sans", sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+
+.page-description {
+    position: relative;
+    z-index: 1;
+    max-width: 580px;
+    margin: 20px 0 0;
+    color: #d7e6f5;
+    font-size: 1.1rem;
+}
+
+/* Titlul secțiunii */
+
+.section-heading {
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.section-heading h2 {
+    margin: 0;
+    color: var(--navy);
+    font-family: "DM-Sans", sans-serif;
+    font-size: 1.8rem;
+}
+
+/* Butoane */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 11px 18px;
+    border: 1px solid transparent;
+    border-radius: 9px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+}
+
+.button-primary {
+    background: var(--navy);
+    color: white;
+    box-shadow: 0 6px 16px rgba(11, 36, 71, 0.2);
+}
+
+.button-primary:hover {
+    background: var(--blue);
+    box-shadow: 0 8px 20px rgba(40, 120, 200, 0.28);
+}
+
+/* Lista pieselor */
+
+.songs-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.song-card {
+    min-height: 84px;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid var(--border);
+    border-left: 5px solid var(--blue);
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(11, 36, 71, 0.05);
+    color: var(--text);
+    font-size: 1.05rem;
+    font-weight: 700;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.song-card:hover {
+    color: var(--navy);
+    background: var(--light-blue);
+    border-color: var(--blue);
+    box-shadow: var(--shadow);
+    transform: translateY(-3px);
+}
+
+.song-arrow {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: var(--light-blue);
+    border-radius: 50%;
+    color: var(--navy);
+    font-size: 1.2rem;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.song-card:hover .song-arrow {
+    background: var(--blue);
+    color: white;
+    transform: translateX(3px);
+}
+
+/* Stare fără piese */
+
+.empty-state {
+    grid-column: 1 / -1;
+    padding: 55px 30px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 2px dashed var(--border);
+    border-radius: 15px;
+    text-align: center;
+}
+
+.empty-state h3 {
+    margin: 0;
+    color: var(--navy);
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+}
+
+.empty-state p {
+    margin: 8px 0 0;
+    color: var(--muted);
+}
+
+/* Mesaje */
+
+.alert-success {
+    margin-bottom: 30px;
+    padding: 14px 18px;
+    background: var(--success-background);
+    border: 1px solid #bfe7cc;
+    border-radius: 9px;
+    color: var(--success-text);
+    font-weight: 600;
+}
+
+/* Footer */
+
+.site-footer {
+    padding: 28px 0;
+    background: var(--navy);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #b9cee3;
+    font-size: 0.9rem;
+}
+
+/* Tabletă și telefon */
+
+@media (max-width: 700px) {
+    .container {
+        width: min(100% - 28px, 1100px);
+    }
+
+    .navigation {
+        min-height: 64px;
+        gap: 15px;
+    }
+
+    .brand {
+        font-size: 1.05rem;
+    }
+
+    .navigation nav {
+        gap: 14px;
+    }
+
+    .navigation nav a,
+    .nav-button {
+        font-size: 0.85rem;
+    }
+
+    .main-content {
+        padding-top: 35px;
+        padding-bottom: 60px;
+    }
+
+    .page-heading {
+        margin-bottom: 42px;
+        padding: 32px 24px;
+        border-radius: 16px;
+    }
+
+    .page-heading h1 {
+        font-size: 2.5rem;
+    }
+
+    .page-description {
+        font-size: 1rem;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .songs-list {
+        grid-template-columns: 1fr;
+    }
+
+    .song-card {
+        min-height: 76px;
+        padding: 18px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navigation nav {
+        gap: 10px;
+    }
+
+    .navigation nav a {
+        font-size: 0.8rem;
+    }
+
+    .page-heading {
+        padding: 28px 20px;
+    }
+
+    .page-heading h1 {
+        font-size: 2.15rem;
+    }
+}
+
+/* Pagina formularului */
+
+.form-page {
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: "DM Sans", sans-serif;
+}
+
+.form-heading {
+    margin-bottom: 30px;
+    padding: 36px 40px;
+    overflow: hidden;
+    position: relative;
+    background:
+        linear-gradient(
+            135deg,
+            #07192f 0%,
+            #0b2c55 65%,
+            #154f87 100%
+        );
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(7, 25, 47, 0.2);
+}
+
+.form-heading::after {
+    content: "";
+    position: absolute;
+    top: -85px;
+    right: -55px;
+    width: 240px;
+    height: 240px;
+    background: rgba(99, 179, 237, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+}
+
+.form-heading h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(2rem, 5vw, 3.1rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+}
+
+.form-heading > p:last-child {
+    position: relative;
+    z-index: 1;
+    max-width: 610px;
+    margin: 14px 0 0;
+    color: #c8daec;
+    font-size: 1rem;
+}
+
+.eyebrow-dark {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 9px;
+    color: #73b9f2;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+/* Cardul formularului */
+
+.song-form {
+    padding: 38px;
+    background: #ffffff;
+    border: 1px solid #cbd7e4;
+    border-radius: 18px;
+    box-shadow: 0 16px 45px rgba(11, 36, 71, 0.1);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 150px;
+    gap: 22px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group-wide {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    color: #0a0f17;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 13px 15px;
+    background: #f5f7fa;
+    border: 1px solid #c5d0dc;
+    border-radius: 8px;
+    color: #080d14;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.96rem;
+    outline: none;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-group input:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+    border-color: #8799ab;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    background: white;
+    border-color: #174f86;
+    box-shadow: 0 0 0 4px rgba(23, 79, 134, 0.12);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #8b98a7;
+}
+
+.form-group textarea {
+    min-height: 250px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.lyrics-field {
+    margin-top: 27px;
+    padding-top: 27px;
+    border-top: 1px solid #dce3eb;
+}
+
+.field-help {
+    margin: -2px 0 3px;
+    color: #657386;
+    font-size: 0.87rem;
+}
+
+/* Erori */
+
+.form-errors {
+    margin-bottom: 25px;
+    padding: 16px 20px;
+    background: #fff1f2;
+    border: 1px solid #fda4af;
+    border-left: 5px solid #be123c;
+    border-radius: 8px;
+    color: #881337;
+    font-size: 0.92rem;
+}
+
+.form-errors ul {
+    margin: 8px 0 0;
+    padding-left: 20px;
+}
+
+/* Editor acorduri */
+
+.chord-editor {
+    margin-top: 30px;
+    overflow: hidden;
+    background: #081a30;
+    border: 1px solid #173c63;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(8, 26, 48, 0.16);
+}
+
+.editor-heading {
+    padding: 24px 26px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.editor-heading h2 {
+    margin: 0;
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.chord-editor .eyebrow-dark {
+    color: #6db9f2;
+}
+
+.chord-editor > .field-help {
+    padding: 0 26px 22px;
+    color: #aebfd1;
+}
+
+.chord-editor .button-secondary {
+    background: white;
+    border-color: white;
+    color: #07192f;
+}
+
+.chord-editor .button-secondary:hover {
+    background: #ddecfa;
+    border-color: #ddecfa;
+}
+
+.editor-lines {
+    margin: 0 12px 12px;
+    padding: 16px;
+    overflow-x: auto;
+    background: #ffffff;
+    border-radius: 9px;
+}
+
+.editor-line {
+    min-width: 650px;
+    padding: 10px 12px 16px;
+    border-bottom: 1px solid #dce3eb;
+}
+
+.editor-line:last-child {
+    border-bottom: 0;
+}
+
+.chord-lane {
+    position: relative;
+    min-height: 42px;
+    background:
+        linear-gradient(
+            to right,
+            transparent 0,
+            transparent calc(100% - 1px),
+            #edf2f7 calc(100% - 1px)
+        );
+    background-size: 16px 100%;
+    border-bottom: 1px dashed #aebdcb;
+}
+
+.lyric-line {
+    min-height: 32px;
+    padding-top: 9px;
+    color: #070b10;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: pre;
+}
+
+.editor-placeholder {
+    padding: 42px 20px;
+    color: #6b7888;
+    text-align: center;
+}
+
+/* Butoanele formularului */
+
+.form-actions {
+    margin-top: 30px;
+    padding-top: 26px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-top: 1px solid #dce3eb;
+}
+
+.form-actions .button {
+    min-width: 150px;
+}
+
+.form-actions .button-primary {
+    background: #0b2c55;
+    color: white;
+}
+
+.form-actions .button-primary:hover {
+    background: #07192f;
+}
+
+.form-actions .button-secondary {
+    background: white;
+    border-color: #afbdca;
+    color: #111820;
+}
+
+.form-actions .button-secondary:hover {
+    background: #edf2f7;
+    border-color: #8595a5;
+}
+
+/* Telefon și tabletă */
+
+@media (max-width: 700px) {
+    .form-heading {
+        padding: 30px 24px;
+        border-radius: 14px;
+    }
+
+    .song-form {
+        padding: 25px 18px;
+        border-radius: 14px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group-wide {
+        grid-column: auto;
+    }
+
+    .editor-heading {
+        padding: 22px 18px 14px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .chord-editor > .field-help {
+        padding: 0 18px 20px;
+    }
+
+    .editor-lines {
+        padding: 10px;
+    }
+
+    .form-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .form-actions .button {
+        width: 100%;
+    }
+}
+
+/* Controalele acordurilor */
+
+.line-toolbar {
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 90px minmax(200px, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.line-number {
+    color: #536274;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.chord-entry {
+    width: 100%;
+    padding: 8px 11px;
+    background: #f4f6f8;
+    border: 1px solid #c5d0dc;
+    border-radius: 6px;
+    color: #080d14;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.87rem;
+    outline: none;
+}
+
+.chord-entry:focus {
+    background: white;
+    border-color: #174f86;
+    box-shadow: 0 0 0 3px rgba(23, 79, 134, 0.1);
+}
+
+.add-chords-button {
+    padding: 8px 13px;
+    background: #0b2c55;
+    border: 0;
+    border-radius: 6px;
+    color: white;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.add-chords-button:hover {
+    background: #174f86;
+}
+
+.chord-lane {
+    font-family: "SFMono-Regular", Consolas, monospace;
+}
+
+.editor-chord {
+    position: absolute;
+    bottom: 5px;
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    background: #0b2c55;
+    border: 1px solid #0b2c55;
+    border-radius: 6px;
+    box-shadow: 0 3px 8px rgba(11, 44, 85, 0.2);
+}
+
+.editor-chord-name,
+.editor-chord-delete {
+    border: 0;
+    color: white;
+    cursor: pointer;
+}
+
+.editor-chord-name {
+    padding: 5px 8px;
+    background: #0b2c55;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.editor-chord-name:hover {
+    background: #174f86;
+}
+
+.editor-chord-delete {
+    padding: 5px 7px;
+    background: #07192f;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.editor-chord-delete:hover {
+    background: #a11232;
+}
+
+@media (max-width: 700px) {
+    .line-toolbar {
+        grid-template-columns: 1fr auto;
+    }
+
+    .line-number {
+        grid-column: 1 / -1;
+    }
+}
+
+.editor-chord {
+    z-index: 1;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+
+.editor-chord:active {
+    cursor: grabbing;
+}
+
+.editor-chord.is-dragging {
+    z-index: 20;
+    cursor: grabbing;
+    box-shadow: 0 8px 22px rgba(11, 44, 85, 0.35);
+    transform: translateY(-2px);
+}
+
+.editor-chord.is-dragging .editor-chord-name {
+    background: #2878c8;
+}
+
+/* Pagina publică a piesei */
+
+.song-page {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.song-page-top {
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.back-link {
+    color: var(--navy);
+    font-weight: 700;
+}
+
+.back-link:hover {
+    color: var(--blue);
+}
+
+.admin-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.button-danger {
+    background: #a11232;
+    color: white;
+}
+
+.button-danger:hover {
+    background: #7f0e28;
+}
+
+.song-header {
+    padding: 38px 42px;
+    background:
+        linear-gradient(
+            135deg,
+            #07192f 0%,
+            #0b2c55 65%,
+            #154f87 100%
+        );
+    border-radius: 18px 18px 0 0;
+    color: white;
+}
+
+.song-author {
+    margin: 0 0 7px;
+    color: #85c5f4;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.song-header h1 {
+    margin: 0;
+    font-family: "DM Sans", sans-serif;
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.045em;
+}
+
+.song-details {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+.song-details span {
+    padding: 7px 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 7px;
+    color: #d7e6f5;
+    font-size: 0.9rem;
+}
+
+.song-details strong {
+    color: white;
+}
+
+.song-sheet {
+    padding: 42px;
+    overflow-x: auto;
+    background: white;
+    border: 1px solid var(--border);
+    border-top: 0;
+    border-radius: 0 0 18px 18px;
+    box-shadow: var(--shadow);
+}
+
+.public-song-line {
+    min-width: 700px;
+    margin-bottom: 15px;
+}
+
+.public-chord-lane {
+    position: relative;
+    min-height: 27px;
+    font-family: "SFMono-Regular", Consolas, monospace;
+}
+
+.public-chord {
+    position: absolute;
+    bottom: 2px;
+    color: #155d9c;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.95rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.public-lyric-line {
+    min-height: 27px;
+    color: #080d14;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: pre;
+}
+
+@media (max-width: 700px) {
+    .song-page-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .song-header {
+        padding: 30px 24px;
+    }
+
+    .song-details {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .song-sheet {
+        padding: 28px 20px;
+    }
+}
+
+/* Transpunerea acordurilor */
+
+.transpose-control {
+    min-height: 46px;
+    padding: 6px 8px 6px 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+}
+
+.transpose-label {
+    color: #d7e6f5;
+    font-size: 0.9rem;
+}
+
+.transpose-control strong {
+    min-width: 35px;
+    color: white;
+    font-size: 1.05rem;
+    text-align: center;
+}
+
+.transpose-button {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background: white;
+    border: 0;
+    border-radius: 6px;
+    color: #07192f;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.transpose-button:hover {
+    background: #85c5f4;
+}
+
+.transpose-reset {
+    height: 32px;
+    padding: 0 11px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 6px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.transpose-reset:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.transpose-steps {
+    color: #9fc9e9;
+    font-size: 0.75rem;
+    white-space: nowrap;
+}
+
+.song-detail {
+    padding: 10px 13px;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 8px;
+    color: #d7e6f5;
+    font-size: 0.9rem;
+}
+
+.song-detail strong {
+    margin-left: 5px;
+    color: white;
+}
+
+@media (max-width: 700px) {
+    .transpose-control {
+        max-width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .transpose-steps {
+        width: 100%;
+        padding-left: 2px;
+    }
+}
+
+/* Pașii formularului */
+
+.song-information,
+.section-builder {
+    padding-bottom: 34px;
+}
+
+.section-builder {
+    margin-top: 34px;
+    padding-top: 34px;
+    border-top: 1px solid #dce3eb;
+}
+
+.form-section-title {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.form-section-title > span {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: #0b2c55;
+    border-radius: 50%;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.form-section-title h2 {
+    margin: 0;
+    color: #08111c;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+}
+
+.form-section-title p {
+    margin: 3px 0 0;
+    color: #687688;
+    font-size: 0.88rem;
+}
+
+/* Mesajele editorului */
+
+.section-feedback {
+    margin-bottom: 18px;
+    padding: 13px 16px;
+    background: #fff4e5;
+    border: 1px solid #f5c97a;
+    border-left: 4px solid #d97706;
+    border-radius: 8px;
+    color: #874a07;
+    font-size: 0.9rem;
+    font-weight: 650;
+}
+
+/* Secțiunea deschisă */
+
+.active-section-card {
+    margin-bottom: 16px;
+    padding: 26px;
+    background: #f8fafc;
+    border: 2px solid #174f86;
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(23, 79, 134, 0.12);
+}
+
+.active-section-heading {
+    margin-bottom: 22px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.active-section-heading span {
+    display: block;
+    margin-bottom: 3px;
+    color: #2474b7;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.active-section-heading h3 {
+    margin: 0;
+    color: #07192f;
+    font-family: "DM Sans", sans-serif;
+    font-size: 1.35rem;
+    font-weight: 750;
+    letter-spacing: -0.025em;
+}
+
+.active-section-settings {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) 130px;
+    gap: 16px;
+}
+
+.custom-label-group {
+    grid-column: 1 / -1;
+}
+
+.active-section-lyrics {
+    margin-top: 20px;
+}
+
+.active-section-lyrics textarea {
+    min-height: 190px;
+    background: white;
+}
+
+.save-section-button {
+    margin-top: 20px;
+}
+
+/* Secțiuni restrânse */
+
+.collapsed-section {
+    min-height: 76px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #cdd8e3;
+    border-radius: 10px;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+.collapsed-section:hover {
+    border-color: #7da8cf;
+    box-shadow: 0 6px 18px rgba(11, 44, 85, 0.08);
+    transform: translateY(-1px);
+}
+
+.collapsed-section-content {
+    min-width: 0;
+    flex: 1;
+    padding: 15px 17px;
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.section-complete-icon {
+    width: 29px;
+    height: 29px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: #e4f3e9;
+    border-radius: 50%;
+    color: #18713a;
+    font-size: 0.8rem;
+    font-weight: 900;
+}
+
+.collapsed-section-text {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.collapsed-section-text strong {
+    color: #0b213b;
+    font-size: 0.94rem;
+}
+
+.collapsed-section-text small {
+    overflow: hidden;
+    color: #738194;
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.collapsed-section-actions {
+    padding-right: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.collapsed-section-actions button {
+    min-width: 31px;
+    min-height: 31px;
+    padding: 5px 8px;
+    background: #f2f5f8;
+    border: 1px solid #d5dee7;
+    border-radius: 6px;
+    color: #34465a;
+    font-size: 0.76rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.collapsed-section-actions button:hover:not(:disabled) {
+    background: #e2edf7;
+    border-color: #8fb4d6;
+    color: #0b2c55;
+}
+
+.collapsed-section-actions button:disabled {
+    opacity: 0.38;
+    cursor: not-allowed;
+}
+
+.compact-delete-button {
+    padding: 7px 10px;
+    background: transparent;
+    border: 1px solid #e3a9b5;
+    border-radius: 6px;
+    color: #9f1239;
+    font-family: "DM Sans", sans-serif;
+    font-size: 0.77rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.compact-delete-button:hover {
+    background: #fff1f2;
+    border-color: #be123c;
+}
+
+/* Butonul pentru secțiunea următoare */
+
+.add-section-card {
+    width: 100%;
+    margin-top: 13px;
+    padding: 19px 21px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #f5f8fb;
+    border: 1px dashed #8caac5;
+    border-radius: 10px;
+    color: #0b2c55;
+    text-align: left;
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.add-section-card:hover {
+    background: #e8f2fb;
+    border-color: #174f86;
+    transform: translateY(-1px);
+}
+
+.add-section-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    background: #0b2c55;
+    border-radius: 9px;
+    color: white;
+    font-size: 1.35rem;
+    line-height: 1;
+}
+
+.add-section-card > span:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-section-card strong {
+    font-size: 0.94rem;
+}
+
+.add-section-card small {
+    color: #728196;
+    font-size: 0.78rem;
+}
+
+/* Telefon */
+
+@media (max-width: 700px) {
+    .form-section-title {
+        align-items: flex-start;
+    }
+
+    .active-section-card {
+        padding: 20px 16px;
+    }
+
+    .active-section-settings {
+        grid-template-columns: 1fr;
+    }
+
+    .custom-label-group {
+        grid-column: auto;
+    }
+
+    .collapsed-section {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .collapsed-section-actions {
+        padding: 0 13px 12px;
+        justify-content: flex-end;
+    }
+
+    .collapsed-section-actions button {
+        flex: 1;
+    }
+
+    .active-section-heading {
+        gap: 10px;
+    }
 }

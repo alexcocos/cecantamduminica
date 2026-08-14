@@ -1,1 +1,2 @@
 //
+import './song-editor';
