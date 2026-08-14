@@ -52,27 +52,37 @@
             Editează
         </a>
 
-        <form
-            action="{{ route('setlists.live', $setlist) }}"
-            method="POST"
-        >
-            @csrf
-            @method('PATCH')
-
-            <button
-                type="submit"
-                class="button {{ $setlist->is_live ? 'button-danger' : 'button-live' }}"
+        @if ($setlist->is_live)
+            <form
+                action="{{ route('setlists.live', $setlist) }}"
+                method="POST"
             >
-                {{ $setlist->is_live
-                    ? 'Oprește modul live'
-                    : 'Declară setlist live'
-                }}
+                @csrf
+                @method('PATCH')
+
+                <button
+                    type="submit"
+                    class="button button-danger"
+                >
+                    Oprește modul live
+                </button>
+            </form>
+        @else
+            <button
+                type="button"
+                class="button button-live"
+                id="open-live-modal"
+            >
+                Declară setlist live
             </button>
-        </form>
+        @endif
     @endif
 
     <a
-        href="{{ route('setlists.export.options', $setlist) }}"
+        href="{{ route(
+            'setlists.export.options',
+            $setlist
+        ) }}"
         class="button button-export"
     >
         Exportă setlistul
@@ -84,6 +94,103 @@
             
         </div>
     </header>
+
+    @if ($isOwner && !$setlist->is_live)
+    <div
+        class="live-modal"
+        id="live-modal"
+        hidden
+    >
+        <div
+            class="live-modal-backdrop"
+            id="live-modal-backdrop"
+        ></div>
+
+        <div
+            class="live-modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="live-modal-title"
+        >
+            <button
+                type="button"
+                class="live-modal-close"
+                id="close-live-modal"
+                aria-label="Închide"
+            >
+                ×
+            </button>
+
+            <p class="live-modal-eyebrow">
+                Publicare live
+            </p>
+
+            <h2 id="live-modal-title">
+                Alege echipa
+            </h2>
+
+            <p class="live-modal-description">
+                Numai membrii echipei selectate vor vedea
+                acest setlist ca fiind live.
+            </p>
+
+            @if ($teams->isNotEmpty())
+                <form
+                    action="{{ route(
+                        'setlists.live',
+                        $setlist
+                    ) }}"
+                    method="POST"
+                    class="live-modal-form"
+                >
+                    @csrf
+                    @method('PATCH')
+
+                    <label for="live-team-id">
+                        Echipa
+                    </label>
+
+                    <select
+                        id="live-team-id"
+                        name="team_id"
+                        required
+                    >
+                        <option value="">
+                            Selectează o echipă
+                        </option>
+
+                        @foreach ($teams as $team)
+                            <option value="{{ $team->id }}">
+                                {{ $team->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <button
+                        type="submit"
+                        class="button button-live-confirm"
+                    >
+                        Publică setlistul live
+                    </button>
+                </form>
+            @else
+                <div class="live-modal-empty">
+                    <p>
+                        Trebuie să creezi sau să intri într-o
+                        echipă înainte de a publica un setlist live.
+                    </p>
+
+                    <a
+                        href="{{ route('teams.index') }}"
+                        class="button button-live-confirm"
+                    >
+                        Mergi la echipe
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+@endif
 
     <main class="setlist-content">
         @if ($setlist->songs->isEmpty())
@@ -510,6 +617,126 @@
     position: relative;
 }
 
+.live-modal[hidden] {
+    display: none;
+}
+
+.live-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+}
+
+.live-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(2, 15, 28, 0.72);
+    backdrop-filter: blur(6px);
+}
+
+.live-modal-card {
+    position: relative;
+    z-index: 1;
+    width: min(460px, 100%);
+    padding: 32px;
+    border: 1px solid rgba(8, 44, 77, 0.12);
+    border-radius: 22px;
+    background: #ffffff;
+    box-shadow: 0 28px 80px rgba(2, 20, 37, 0.3);
+}
+
+.live-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 36px;
+    height: 36px;
+    border: 0;
+    border-radius: 10px;
+    background: #edf3f7;
+    color: #082743;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
+.live-modal-eyebrow {
+    margin: 0 0 8px;
+    color: #188052;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+}
+
+.live-modal-card h2 {
+    margin: 0;
+    color: #071f37;
+    font-size: 2rem;
+    letter-spacing: -0.045em;
+}
+
+.live-modal-description {
+    margin: 12px 0 24px;
+    color: #718195;
+    font-size: 0.88rem;
+    line-height: 1.6;
+}
+
+.live-modal-form {
+    display: grid;
+    gap: 12px;
+}
+
+.live-modal-form label {
+    color: #183650;
+    font-size: 0.78rem;
+    font-weight: 900;
+}
+
+.live-modal-form select {
+    width: 100%;
+    min-height: 51px;
+    padding: 0 14px;
+    border: 1px solid #c9d7e3;
+    border-radius: 11px;
+    outline: none;
+    background: #f7fafc;
+    color: #09243d;
+    font: inherit;
+    cursor: pointer;
+}
+
+.live-modal-form select:focus {
+    border-color: #269165;
+    box-shadow: 0 0 0 4px rgba(38, 145, 101, 0.12);
+}
+
+.button-live-confirm {
+    width: 100%;
+    min-height: 51px;
+    margin-top: 4px;
+    background: #4fd68a;
+    color: #052617;
+}
+
+.live-modal-empty {
+    display: grid;
+    gap: 15px;
+}
+
+.live-modal-empty p {
+    margin: 0;
+    color: #6e7f90;
+    line-height: 1.6;
+}
+
+body.live-modal-open {
+    overflow: hidden;
+}
+
 .fullscreen-toggle {
     position: absolute;
     top: 25px;
@@ -613,6 +840,48 @@ body.setlist-fullscreen .setlist-content {
 
 .setlist-actions .button {
     min-width: 0;
+}
+
+.live-team-form {
+    display: grid;
+    gap: 7px;
+}
+
+.live-team-form select {
+    width: 100%;
+    min-height: 39px;
+    padding: 0 11px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 10px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.live-team-form select option {
+    background: #ffffff;
+    color: #08243f;
+}
+
+.live-team-form select:focus {
+    border-color: #8bd2ff;
+    box-shadow: 0 0 0 3px rgba(139, 210, 255, 0.14);
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    margin: -1px;
+    border: 0;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
 }
 
     .button {
@@ -2106,4 +2375,66 @@ body.setlist-fullscreen .setlist-content {
         );
     });
 </script>
+@if ($isOwner && !$setlist->is_live)
+    <script>
+        const liveModal =
+            document.getElementById('live-modal');
+
+        const openLiveModalButton =
+            document.getElementById('open-live-modal');
+
+        const closeLiveModalButton =
+            document.getElementById('close-live-modal');
+
+        const liveModalBackdrop =
+            document.getElementById('live-modal-backdrop');
+
+        function openLiveModal() {
+            liveModal.hidden = false;
+
+            document.body.classList.add(
+                'live-modal-open'
+            );
+
+            liveModal
+                .querySelector('select, a')
+                ?.focus();
+        }
+
+        function closeLiveModal() {
+            liveModal.hidden = true;
+
+            document.body.classList.remove(
+                'live-modal-open'
+            );
+        }
+
+        openLiveModalButton?.addEventListener(
+            'click',
+            openLiveModal
+        );
+
+        closeLiveModalButton?.addEventListener(
+            'click',
+            closeLiveModal
+        );
+
+        liveModalBackdrop?.addEventListener(
+            'click',
+            closeLiveModal
+        );
+
+        document.addEventListener(
+            'keydown',
+            function (event) {
+                if (
+                    event.key === 'Escape' &&
+                    !liveModal.hidden
+                ) {
+                    closeLiveModal();
+                }
+            }
+        );
+    </script>
+@endif
 @endsection

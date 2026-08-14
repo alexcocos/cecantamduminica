@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setlist;
 use App\Models\Song;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -12,24 +11,19 @@ class SongController extends Controller
     /**
      * Afișează lista pieselor și setlistul live.
      */
-    public function index()
-    {
-        $songs = Song::orderBy('title')->get();
+    /**
+ * Afișează lista pieselor și setlisturile live
+ * ale echipelor utilizatorului.
+ */
+public function index()
+{
+    $songs = Song::orderBy('title')->get();
 
-        $liveSetlist = Setlist::query()
-            ->where('is_live', true)
-            ->with('user')
-            ->withCount('songs')
-            ->first();
-
-        return view(
-            'songs.index',
-            compact(
-                'songs',
-                'liveSetlist'
-            )
-        );
-    }
+    return view(
+        'songs.index',
+        compact('songs')
+    );
+}
 
     /**
      * Afișează formularul pentru adăugarea unei piese.
@@ -145,7 +139,10 @@ public function show(Song $song)
         Song $song
     ) {
         $validated =
-            $this->validateSong($request);
+    $this->validateSong(
+        $request,
+        $song
+    );
 
         $sections = json_decode(
             $validated['sections'],
@@ -208,14 +205,19 @@ public function show(Song $song)
      * Validează informațiile generale ale piesei.
      */
     private function validateSong(
-        Request $request
-    ): array {
+    Request $request,
+    ?Song $song = null
+): array {
         return $request->validate([
-            'title' => [
-                'required',
-                'string',
-                'max:255',
-            ],
+           'title' => [
+    'required',
+    'string',
+    'max:255',
+    Rule::unique(
+        'songs',
+        'title'
+    )->ignore($song?->id),
+],
 
             'author' => [
                 'nullable',
@@ -271,6 +273,9 @@ public function show(Song $song)
 
             'event_name.required_if' =>
                 'Completează denumirea evenimentului.',
+
+                'title.unique' =>
+    'Există deja o piesă cu acest titlu.',
         ]);
     }
 

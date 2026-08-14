@@ -118,6 +118,47 @@
                             placeholder="Poți adăuga o scurtă notă despre acest setlist."
                         >{{ old('description', $setlist->description) }}</textarea>
                     </div>
+
+<div class="form-group team-form-group">
+    <label for="team_id">
+        Echipa
+        <span>opțional</span>
+    </label>
+
+    <select
+        id="team_id"
+        name="team_id"
+    >
+        <option value="">
+            Setlist personal — fără echipă
+        </option>
+
+        @foreach ($teams as $team)
+            <option
+                value="{{ $team->id }}"
+                @selected(
+                    (string) old(
+                        'team_id',
+                        $selectedTeamId
+                    ) === (string) $team->id
+                )
+            >
+                {{ $team->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <small class="team-field-help">
+        @if ($setlist->is_live)
+            Acest setlist este live și trebuie să rămână
+            asociat unei echipe.
+        @else
+            Poți păstra setlistul personal sau îl poți
+            asocia unei echipe.
+        @endif
+    </small>
+</div>
+
                 </div>
             </section>
 
@@ -428,8 +469,9 @@
     }
 
     .form-group input,
-    .form-group textarea,
-    .search-wrapper input {
+.form-group textarea,
+.form-group select,
+.search-wrapper input {
         width: 100%;
         border: 1px solid #ccd8e3;
         outline: none;
@@ -456,9 +498,28 @@
         line-height: 1.55;
     }
 
+.team-form-group {
+    grid-column: 1 / -1;
+}
+
+.form-group select {
+    width: 100%;
+    min-height: 53px;
+    padding: 0 16px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.team-field-help {
+    color: #7b8998;
+    font-size: 0.72rem;
+    line-height: 1.5;
+}
+
     .form-group input:focus,
-    .form-group textarea:focus,
-    .search-wrapper input:focus {
+.form-group textarea:focus,
+.form-group select:focus,
+.search-wrapper input:focus {
         border-color: #207ab9;
         background: #ffffff;
         box-shadow: 0 0 0 4px rgba(32, 122, 185, 0.12);

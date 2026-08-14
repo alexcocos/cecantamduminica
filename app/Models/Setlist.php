@@ -23,9 +23,15 @@ class Setlist extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(
-            User::class
-        );
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Echipa căreia îi aparține setlistul.
+     */
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     /**

@@ -86,6 +86,41 @@
                             placeholder="Observații despre program..."
                         >{{ old('description') }}</textarea>
                     </div>
+
+                    <div class="builder-field team-field-wide">
+    <label for="team_id">
+        Echipa
+        <small>opțional</small>
+    </label>
+
+    <select
+        id="team_id"
+        name="team_id"
+    >
+        <option value="">
+            Setlist personal — fără echipă
+        </option>
+
+        @foreach ($teams as $team)
+            <option
+                value="{{ $team->id }}"
+                @selected(
+                    (string) old(
+                        'team_id',
+                        $selectedTeamId
+                    ) === (string) $team->id
+                )
+            >
+                {{ $team->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <small class="builder-field-help">
+        Poți asocia setlistul unei echipe acum
+        sau când îl declari live.
+    </small>
+</div>
                 </div>
             </section>
 
@@ -376,7 +411,8 @@
         }
 
         .builder-field input,
-        .builder-field textarea {
+.builder-field textarea,
+.builder-field select {
             width: 100%;
             padding: 12px 13px;
             background: #f5f7fa;
@@ -390,13 +426,29 @@
         }
 
         .builder-field input:focus,
-        .builder-field textarea:focus {
+.builder-field textarea:focus,
+.builder-field select:focus {
             background: white;
             border-color: #2878c8;
             box-shadow:
                 0 0 0 4px rgba(40, 120, 200, 0.1);
         }
 
+
+        .team-field-wide {
+    grid-column: 1 / -1;
+}
+
+.builder-field select {
+    min-height: 48px;
+    cursor: pointer;
+}
+
+.builder-field-help {
+    color: #7b8998;
+    font-size: 0.72rem;
+    line-height: 1.5;
+}
         .songs-builder-layout {
             display: grid;
             grid-template-columns:

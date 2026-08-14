@@ -13,51 +13,7 @@
             pieselor din repertoriu.
         </p>
     </section>
-
-    @if ($liveSetlist)
-        <a
-            href="{{ route('setlists.show', $liveSetlist) }}"
-            class="live-setlist-card"
-        >
-            <span class="live-setlist-status">
-                <span class="live-status-dot"></span>
-                Setlist live
-            </span>
-
-            <span class="live-setlist-content">
-                <span class="live-setlist-main">
-                    <span class="live-setlist-icon">
-                        ♪
-                    </span>
-
-                    <span class="live-setlist-text">
-                        <strong>
-                            {{ $liveSetlist->name }}
-                        </strong>
-
-                        <small>
-                            {{ $liveSetlist->songs_count }}
-                            {{ $liveSetlist->songs_count === 1
-                                ? 'piesă'
-                                : 'piese'
-                            }}
-
-                            <span aria-hidden="true">·</span>
-
-                            Creat de
-                            {{ $liveSetlist->user->name }}
-                        </small>
-                    </span>
-                </span>
-
-                <span class="live-setlist-action">
-                    Deschide setlistul
-                    <span aria-hidden="true">→</span>
-                </span>
-            </span>
-        </a>
-    @endif
-
+    
     <section class="songs-section">
         <div class="section-heading">
             <div>
@@ -234,11 +190,16 @@
     </section>
 
     <style>
+        .live-setlists {
+    display: grid;
+    gap: 14px;
+    margin-bottom: 28px;
+}
         .live-setlist-card {
             position: relative;
             display: block;
             overflow: hidden;
-            margin-bottom: 28px;
+            margin-bottom: 0px;
             padding: 26px 28px;
            border: 3px solid #22c55e;
             border-radius: 20px;
@@ -491,34 +452,34 @@
         }
 
         .song-filter.is-active {
-            background: #0b2c55;
+            background: #677b93;
             border-color: #0b2c55;
             color: #ffffff;
             box-shadow: 0 6px 16px rgba(11, 44, 85, 0.15);
         }
 
         .song-filter.filter-praise:not(.is-active) {
-            border-color: #93c5fd;
-            background: #dbeafe;
-            color: #1d4f91;
+            border-color: #4d627c;
+            background: #cedcef;
+            color: #151516;
         }
 
         .song-filter.filter-interlude:not(.is-active) {
-            border-color: #fdba74;
-            background: #ffedd5;
-            color: #9a4511;
+            border-color: #b18453;
+            background: #f6eadb;
+            color: #151516;
         }
 
         .song-filter.filter-worship:not(.is-active) {
-            border-color: #c4b5fd;
+            border-color: #9a8bca;
             background: #ede9fe;
-            color: #5b36a8;
+            color: #151516;
         }
 
         .song-filter.filter-event:not(.is-active) {
-            border-color: #86efac;
-            background: #dcfce7;
-            color: #166534;
+            border-color: #366e4b;
+            background: #dcf0e3;
+            color: #151516;
         }
 
         .songs-search input {
@@ -665,21 +626,21 @@
         }
 
         .song-type-praise {
-            border-color: #93c5fd;
-            background: #dbeafe;
-            color: #1d4f91;
+            border-color: #5e86b1;
+            background: #d7e8f1;
+            color: #151516;
         }
 
         .song-type-interlude {
-            border-color: #fdba74;
-            background: #ffedd5;
-            color: #9a4511;
+            border-color: #c29c76;
+            background: #faf3eb;
+            color: #151516;
         }
 
         .song-type-worship {
-            border-color: #c4b5fd;
-            background: #ede9fe;
-            color: #5b36a8;
+            border-color: #b6a8f3;
+            background: #f7f5fb;
+            color: #151516;
         }
 
         .song-type-event {
