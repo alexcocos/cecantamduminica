@@ -1056,6 +1056,198 @@
         }
     }
 
+    /*
+     * Aspect dedicat telefoanelor.
+     * Aceste reguli suprascriu doar varianta mobilă.
+     */
+    @media (max-width: 700px) {
+        .home-carousel,
+        .home-carousel-slide {
+            min-height: 940px;
+        }
+
+        .home-main-slide,
+        .home-feature-slide {
+            grid-template-columns: minmax(0, 1fr);
+            grid-template-rows: auto auto;
+            min-height: 940px;
+            align-content: start;
+            justify-items: stretch;
+            gap: 42px;
+            padding: 105px 18px 105px;
+        }
+
+        .home-carousel-slide::before {
+            top: 38px;
+            left: 18px;
+            max-width: calc(100% - 36px);
+            overflow: hidden;
+            font-size: clamp(2.65rem, 13vw, 4.25rem);
+            line-height: 0.9;
+            letter-spacing: -0.05em;
+            white-space: nowrap;
+        }
+
+        .home-main-content,
+        .home-feature-content {
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .home-slide-eyebrow {
+            margin-bottom: 12px;
+            font-size: 0.64rem;
+            line-height: 1.4;
+        }
+
+        .home-main-content h1 {
+            max-width: 100%;
+            font-size: clamp(2.55rem, 12vw, 4rem);
+            line-height: 0.98;
+            letter-spacing: -0.055em;
+        }
+
+        .home-feature-content h2 {
+            max-width: 100%;
+            font-size: clamp(2.25rem, 10vw, 3.45rem);
+            line-height: 1;
+            letter-spacing: -0.045em;
+        }
+
+        .home-main-description,
+        .home-feature-content > p:not(.home-slide-eyebrow) {
+            max-width: 100%;
+            margin: 17px 0 0;
+            font-size: 0.88rem;
+            line-height: 1.65;
+        }
+
+        .home-main-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 9px;
+            margin-top: 22px;
+        }
+
+        .home-main-primary,
+        .home-main-secondary {
+            width: 100%;
+            min-height: 48px;
+            box-sizing: border-box;
+        }
+
+        .home-feature-content > a {
+            margin-top: 21px;
+        }
+
+        .home-feature-note {
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        .home-main-preview,
+        .home-feature-visual {
+            width: 100%;
+            max-width: 520px;
+            min-height: 0;
+            margin: 0 auto;
+            box-sizing: border-box;
+            border-radius: 17px;
+            transform: none;
+        }
+
+        .home-preview-content,
+        .home-feature-visual {
+            padding: 18px;
+        }
+
+        .home-preview-content {
+            gap: 9px;
+        }
+
+        .home-preview-song,
+        .visual-song,
+        .visual-setlist-song,
+        .visual-export-file {
+            padding: 12px;
+        }
+
+        .visual-filter-list {
+            overflow-x: auto;
+            padding-bottom: 2px;
+            scrollbar-width: none;
+        }
+
+        .visual-filter-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .visual-filter-list span {
+            flex-shrink: 0;
+        }
+
+        .visual-key-control {
+            margin-bottom: 34px;
+        }
+
+        .visual-lyric {
+            margin-top: 30px;
+        }
+
+        .visual-lyric p {
+            overflow-wrap: anywhere;
+            font-size: 0.78rem;
+            line-height: 1.55;
+            white-space: normal;
+        }
+
+        .team-visual h3 {
+            margin-top: 20px;
+        }
+
+        .home-carousel-navigation {
+            right: 18px;
+            bottom: 22px;
+            left: 18px;
+        }
+
+        .home-carousel-buttons button {
+            width: 42px;
+            height: 42px;
+        }
+    }
+
+    @media (max-width: 390px) {
+        .home-carousel,
+        .home-carousel-slide,
+        .home-main-slide,
+        .home-feature-slide {
+            min-height: 910px;
+        }
+
+        .home-main-slide,
+        .home-feature-slide {
+            gap: 34px;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .home-carousel-slide::before {
+            left: 15px;
+            font-size: 2.5rem;
+        }
+
+        .home-carousel-dots {
+            gap: 5px;
+        }
+
+        .home-carousel-dot.is-active {
+            width: 21px;
+        }
+    }
+
     @media (prefers-reduced-motion: reduce) {
         .home-carousel-track {
             transition: none;

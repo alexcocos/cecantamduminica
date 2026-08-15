@@ -362,6 +362,41 @@
             color: #83152a;
         }
 
+        .mobile-menu-toggle {
+            display: none;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 12px;
+            background: rgba(4, 27, 50, 0.72);
+            cursor: pointer;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 19px;
+            height: 2px;
+            margin: 4px auto;
+            border-radius: 999px;
+            background: #ffffff;
+            transition:
+                transform 0.2s ease,
+                opacity 0.2s ease;
+        }
+
+        .mobile-menu-toggle.is-open span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .mobile-menu-toggle.is-open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.is-open span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
         @media (max-width: 1050px) {
             .navigation {
                 align-items: flex-start;
@@ -376,37 +411,76 @@
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
+            .site-header {
+                padding: 8px 0;
+            }
+
+            .navigation {
+                display: grid;
+                grid-template-columns: 1fr auto;
+                align-items: center;
+                gap: 10px 14px;
+            }
+
             .brand-logo-link {
-                width: 170px;
-                height: 56px;
+                width: 145px;
+                height: 50px;
             }
 
             .brand-logo {
-                top: -60px;
+                top: -53px;
                 left: -4px;
-                width: 180px;
-                height: 180px;
+                width: 160px;
+                height: 160px;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                grid-column: 2;
+                grid-row: 1;
             }
 
             .navigation nav {
+                display: flex;
+                grid-column: 1 / -1;
+                width: 100%;
                 align-items: stretch;
                 flex-direction: column;
+                gap: 8px;
             }
 
             .navigation nav > a,
-            .navigation-live,
+            .navigation nav > .user-menu {
+                display: none;
+            }
+
+            .navigation nav > .navigation-live {
+                display: block;
+                width: 100%;
+                order: -1;
+            }
+
             .navigation-live-link,
             .navigation-live-menu,
-            .navigation-live-trigger,
-            .user-menu,
-            .user-menu-trigger {
+            .navigation-live-trigger {
                 width: 100%;
+                box-sizing: border-box;
             }
 
             .navigation-live-link,
             .navigation-live-trigger {
+                min-height: 44px;
                 justify-content: flex-start;
+                padding: 0 14px;
+                border-radius: 12px;
+            }
+
+            .navigation-live-name {
+                max-width: none;
+                font-family: "DM Sans", sans-serif !important;
+                font-size: 0.76rem;
+                font-weight: 800;
             }
 
             .navigation-live-dropdown {
@@ -415,12 +489,33 @@
                 box-sizing: border-box;
                 margin-top: 7px;
             }
+
             .navigation-live,
-.navigation-live * {
-    font-family: "DM Sans", sans-serif;
-}
+            .navigation-live * {
+                font-family: "DM Sans", sans-serif;
+            }
+
+            .navigation nav.is-open > a {
+                display: flex;
+                min-height: 43px;
+                box-sizing: border-box;
+                align-items: center;
+                padding: 0 14px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                background: rgba(7, 31, 55, 0.72);
+                color: #ffffff;
+                text-decoration: none;
+            }
+
+            .navigation nav.is-open > .user-menu {
+                display: block;
+                width: 100%;
+            }
 
             .user-menu-trigger {
+                width: 100%;
+                min-height: 43px;
                 justify-content: space-between;
             }
 
@@ -439,6 +534,25 @@
             .user-menu:focus-within
             .user-menu-dropdown {
                 display: block;
+            }
+
+            .main-content {
+                width: 100%;
+                box-sizing: border-box;
+                padding-right: 16px;
+                padding-left: 16px;
+            }
+
+            .alert-success,
+            .form-errors {
+                margin: 12px 0;
+                padding: 13px 15px;
+                border-radius: 12px;
+            }
+
+            .site-footer {
+                padding-right: 16px;
+                padding-left: 16px;
             }
         }
 
@@ -488,6 +602,18 @@
                     alt="Ce cântăm duminică"
                 >
             </a>
+
+            <button
+                type="button"
+                class="mobile-menu-toggle"
+                id="mobile-menu-toggle"
+                aria-label="Deschide meniul"
+                aria-expanded="false"
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
             <nav>
                 <a href="{{ route('songs.index') }}">
@@ -648,5 +774,43 @@
             Ce cântăm duminică
         </div>
     </footer>
+
+    <script>
+        (() => {
+            const button =
+                document.getElementById(
+                    'mobile-menu-toggle'
+                );
+
+            const navigation =
+                document.querySelector(
+                    '.navigation nav'
+                );
+
+            if (!button || !navigation) {
+                return;
+            }
+
+            button.addEventListener(
+                'click',
+                function () {
+                    const isOpen =
+                        navigation.classList.toggle(
+                            'is-open'
+                        );
+
+                    button.classList.toggle(
+                        'is-open',
+                        isOpen
+                    );
+
+                    button.setAttribute(
+                        'aria-expanded',
+                        isOpen ? 'true' : 'false'
+                    );
+                }
+            );
+        })();
+    </script>
 </body>
 </html>
