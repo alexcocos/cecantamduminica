@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Ce cântăm duminică?')
+@section('title', 'Ce Cântăm Duminică?')
 
 @section('content')
 <section class="home-page">

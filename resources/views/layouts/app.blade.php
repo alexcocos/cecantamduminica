@@ -14,7 +14,7 @@
     >
 
     <title>
-        @yield('title', 'CE CÂNTĂM DUMINICĂ')
+        @yield('title', 'Ce Cântăm Duminică')
     </title>
 
     @vite([
@@ -770,10 +770,12 @@
     </main>
 
     <footer class="site-footer">
-        <div class="container">
-            Ce cântăm duminică
-        </div>
-    </footer>
+    <div class="container">
+        <span>
+             © Website Dezvoltat de Biserica Casa Pâinii Bahnea
+        </span>
+    </div>
+</footer>
 
     <script>
         (() => {

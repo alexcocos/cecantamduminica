@@ -1065,7 +1065,15 @@
         .home-carousel-slide {
             min-height: 940px;
         }
+.home-main-slide .home-main-preview {
+    display: none;
+}
 
+.home-main-slide {
+    grid-template-rows: auto;
+    align-content: center;
+    gap: 0;
+}
         .home-main-slide,
         .home-feature-slide {
             grid-template-columns: minmax(0, 1fr);
